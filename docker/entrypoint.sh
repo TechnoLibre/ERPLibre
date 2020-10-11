@@ -71,13 +71,11 @@ case "$1" in
             exec odoo  "$@" || exec odoo-bin "$@"
         else
             cd $ODOO_PREFIX
-            ./docker/wait-for-psql.py ${DB_ARGS[@]} --timeout=30
             exec ./.venv/bin/python $ODOO_EXEC_BIN "$@" "${DB_ARGS[@]}" -c /etc/odoo/odoo.conf
         fi
         ;;
     -*)
         cd $ODOO_PREFIX
-        ./docker/wait-for-psql.py ${DB_ARGS[@]} --timeout=30
         exec ./.venv/bin/python $ODOO_EXEC_BIN "$@" "${DB_ARGS[@]}" -c /etc/odoo/odoo.conf
         ;;
     *)
