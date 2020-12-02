@@ -40,13 +40,13 @@ def count_space_tab(word, group_space=4):
 
     :param word:
     :param group_space: count tab for number of group_space
-    :return: number of tab, or -1 if ignore line or empty
+    :return: number of tab, or -1 if ignore line or empty, nb_space of over
     """
     nb_tab = 0
     nb_space = 0
     for s_char in word:
         if s_char in ["\n", "\r"]:
-            return -1
+            return -1, 0
         elif s_char in ["\t"]:
             nb_tab += 1
         elif s_char == " ":
@@ -57,7 +57,7 @@ def count_space_tab(word, group_space=4):
         else:
             # Finish to count
             break
-    return nb_tab
+    return nb_tab, nb_space
 
 
 def main():
@@ -84,12 +84,12 @@ def main():
     no_line = 1
     with open(config.file, 'r') as file:
         for line in file.readlines():
-            nb_tab = count_space_tab(line)
+            nb_tab, nb_space = count_space_tab(line)
             diff_tab = nb_tab - last_nb_tab
             new_line = line.strip()
             new_line = new_line.replace("\"", "\\\"")
 
-            status_no_tab = add_line(cw, new_line, no_line, nb_tab, no_tab, no_tab)
+            status_no_tab = add_line(cw, new_line, no_line, nb_tab, no_tab, no_tab, nb_space)
             if status_no_tab >= 0:
                 no_tab = status_no_tab
 
@@ -105,7 +105,7 @@ def main():
         print(output)
 
 
-def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
+def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend, nb_space):
     """
     Recursive check indent and write line
     :param cw: code_writer module
@@ -114,6 +114,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
     :param nb_indent: number of indent to support
     :param no_indent: actual indentation
     :param init_no_intend: initial indentation, can detect if new indent or use the last
+    :param nb_space: more space to add
     :return: the actual no_indent
     """
     max_indent = 19
@@ -130,7 +131,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
             return 0
         elif nb_indent == 1:
             if no_indent != init_no_intend:
-                cw.emit(f"with cw.indent():")
+                cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
             with cw.indent():
                 cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 2:
@@ -138,7 +139,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                 cw.emit(f"with cw.indent():")
             with cw.indent():
                 if no_indent != init_no_intend:
-                    cw.emit(f"with cw.indent():")
+                    cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                 with cw.indent():
                     cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 3:
@@ -149,7 +150,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                     cw.emit(f"with cw.indent():")
                 with cw.indent():
                     if no_indent != init_no_intend:
-                        cw.emit(f"with cw.indent():")
+                        cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                     with cw.indent():
                         cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 4:
@@ -163,7 +164,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                         cw.emit(f"with cw.indent():")
                     with cw.indent():
                         if no_indent != init_no_intend:
-                            cw.emit(f"with cw.indent():")
+                            cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                         with cw.indent():
                             cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 5:
@@ -180,7 +181,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                             cw.emit(f"with cw.indent():")
                         with cw.indent():
                             if no_indent != init_no_intend:
-                                cw.emit(f"with cw.indent():")
+                                cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                             with cw.indent():
                                 cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 6:
@@ -200,7 +201,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                 cw.emit(f"with cw.indent():")
                             with cw.indent():
                                 if no_indent != init_no_intend:
-                                    cw.emit(f"with cw.indent():")
+                                    cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                 with cw.indent():
                                     cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 7:
@@ -223,7 +224,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                     cw.emit(f"with cw.indent():")
                                 with cw.indent():
                                     if no_indent != init_no_intend:
-                                        cw.emit(f"with cw.indent():")
+                                        cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                     with cw.indent():
                                         cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 8:
@@ -249,7 +250,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                         cw.emit(f"with cw.indent():")
                                     with cw.indent():
                                         if no_indent != init_no_intend:
-                                            cw.emit(f"with cw.indent():")
+                                            cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                         with cw.indent():
                                             cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 9:
@@ -278,7 +279,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                             cw.emit(f"with cw.indent():")
                                         with cw.indent():
                                             if no_indent != init_no_intend:
-                                                cw.emit(f"with cw.indent():")
+                                                cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                             with cw.indent():
                                                 cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 10:
@@ -310,7 +311,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                                 cw.emit(f"with cw.indent():")
                                             with cw.indent():
                                                 if no_indent != init_no_intend:
-                                                    cw.emit(f"with cw.indent():")
+                                                    cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                                 with cw.indent():
                                                     cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 11:
@@ -345,7 +346,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                                     cw.emit(f"with cw.indent():")
                                                 with cw.indent():
                                                     if no_indent != init_no_intend:
-                                                        cw.emit(f"with cw.indent():")
+                                                        cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                                     with cw.indent():
                                                         cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 12:
@@ -383,7 +384,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                                         cw.emit(f"with cw.indent():")
                                                     with cw.indent():
                                                         if no_indent != init_no_intend:
-                                                            cw.emit(f"with cw.indent():")
+                                                            cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                                         with cw.indent():
                                                             cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 13:
@@ -424,7 +425,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                                             cw.emit(f"with cw.indent():")
                                                         with cw.indent():
                                                             if no_indent != init_no_intend:
-                                                                cw.emit(f"with cw.indent():")
+                                                                cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                                             with cw.indent():
                                                                 cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 14:
@@ -470,7 +471,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                                                 cw.emit(f"with cw.indent():")
                                                             with cw.indent():
                                                                 if no_indent != init_no_intend:
-                                                                    cw.emit(f"with cw.indent():")
+                                                                    cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                                                 with cw.indent():
                                                                     cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 15:
@@ -519,7 +520,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                                                     cw.emit(f"with cw.indent():")
                                                                 with cw.indent():
                                                                     if no_indent != init_no_intend:
-                                                                        cw.emit(f"with cw.indent():")
+                                                                        cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                                                     with cw.indent():
                                                                         cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 16:
@@ -569,7 +570,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                                                         cw.emit(f"with cw.indent():")
                                                                     with cw.indent():
                                                                         if no_indent != init_no_intend:
-                                                                            cw.emit(f"with cw.indent():")
+                                                                            cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                                                         with cw.indent():
                                                                             cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 17:
@@ -622,7 +623,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                                                             cw.emit(f"with cw.indent():")
                                                                         with cw.indent():
                                                                             if no_indent != init_no_intend:
-                                                                                cw.emit(f"with cw.indent():")
+                                                                                cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                                                             with cw.indent():
                                                                                 cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 18:
@@ -680,7 +681,7 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                                                                 cw.emit(f"with cw.indent():")
                                                                             with cw.indent():
                                                                                 if no_indent != init_no_intend:
-                                                                                    cw.emit(f"with cw.indent():")
+                                                                                    cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                                                                 with cw.indent():
                                                                                     cw.emit(f"cw.emit(\"{line}\")")
         elif nb_indent == 19:
@@ -743,17 +744,17 @@ def add_line(cw, line, no_line, nb_indent, no_indent, init_no_intend):
                                                                                     cw.emit(f"with cw.indent():")
                                                                                 with cw.indent():
                                                                                     if no_indent != init_no_intend:
-                                                                                        cw.emit(f"with cw.indent():")
+                                                                                        cw.emit(f"with cw.indent({4 + nb_space if nb_space else ''}):")
                                                                                     with cw.indent():
                                                                                         cw.emit(f"cw.emit(\"{line}\")")
         return nb_indent
     else:
         if no_indent > nb_indent:
             # deindent
-            return add_line(cw, line, no_line, nb_indent, no_indent - 1, init_no_intend)
+            return add_line(cw, line, no_line, nb_indent, no_indent - 1, init_no_intend, nb_space)
         else:
             # indent
-            return add_line(cw, line, no_line, nb_indent, no_indent + 1, init_no_intend)
+            return add_line(cw, line, no_line, nb_indent, no_indent + 1, init_no_intend, nb_space)
     print("BUG")
     return -1
 
