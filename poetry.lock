@@ -261,6 +261,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
+name = "code-writer"
+version = "1.1.1"
+description = "Library with convenience functions for generating code."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "colorama"
 version = "0.4.3"
 description = "Cross-platform colored terminal text."
@@ -1305,6 +1313,17 @@ python-versions = "*"
 pillow = "*"
 
 [[package]]
+name = "pexpect"
+version = "4.8.0"
+description = "Pexpect allows easy control of interactive console applications."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+ptyprocess = ">=0.5"
+
+[[package]]
 name = "phonenumbers"
 version = "8.12.10"
 description = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
@@ -1375,6 +1394,14 @@ python-versions = "*"
 name = "psycopg2"
 version = "2.7.3.1"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "ptyprocess"
+version = "0.6.0"
+description = "Run a subprocess in a pseudo terminal"
 category = "main"
 optional = false
 python-versions = "*"
@@ -2611,7 +2638,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.0"
 python-versions = "^3.7"
-content-hash = "809b5a6e4f7ab4eecfdbd88deee7429a6d65ad93d7af4fb3a5baca57cb01f1cb"
+content-hash = "c13be2270f5d25540c5b6945cde4b64ce0bac65995447cea3046603cbb46c0c8"
 
 [metadata.files]
 agithub = [
@@ -2746,6 +2773,10 @@ chardet = [
 click = [
     {file = "click-7.1.2-py2.py3-none-any.whl", hash = "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"},
     {file = "click-7.1.2.tar.gz", hash = "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"},
+]
+code-writer = [
+    {file = "code-writer-1.1.1.tar.gz", hash = "sha256:485260d0444707876596c499bd9b1ef9a11dc720d741ac57c884216de9fa3f40"},
+    {file = "code_writer-1.1.1-py3-none-any.whl", hash = "sha256:65bbf4616cd4f206a2e3fc5a9933a002d053d60ebdcc1dac66acc1a58cddd6b8"},
 ]
 colorama = [
     {file = "colorama-0.4.3-py2.py3-none-any.whl", hash = "sha256:7d73d2a99753107a36ac6b455ee49046802e59d9d076ef8e47b61499fa29afff"},
@@ -3349,6 +3380,10 @@ pdf2image = [
     {file = "pdf2image-1.14.0-py3-none-any.whl", hash = "sha256:cf1b2dc77cf3e050cb06078cd7373469c8dca93d4cea1af2a2e1bbe0ed4a8800"},
     {file = "pdf2image-1.14.0.tar.gz", hash = "sha256:066527e1bf954762fb4369c677ae3bc15f2ce8707eee830cccef8471fde736d7"},
 ]
+pexpect = [
+    {file = "pexpect-4.8.0-py2.py3-none-any.whl", hash = "sha256:0b48a55dcb3c05f3329815901ea4fc1537514d6ba867a152b581d69ae3710937"},
+    {file = "pexpect-4.8.0.tar.gz", hash = "sha256:fc65a43959d153d0114afe13997d439c22823a27cefceb5ff35c2178c6784c0c"},
+]
 phonenumbers = [
     {file = "phonenumbers-8.12.10-py2.py3-none-any.whl", hash = "sha256:58f96147fe1ca6d62a72dab3af6a3fda3551da4e0d360c5db2e3a909229d9f6e"},
     {file = "phonenumbers-8.12.10.tar.gz", hash = "sha256:d6e108352e7113c55cf0d92f8aede876a379580e46a3b9c2e779dc3601f11863"},
@@ -3461,6 +3496,10 @@ psycopg2 = [
     {file = "psycopg2-2.7.3.1-cp36-cp36m-win32.whl", hash = "sha256:279dbf220c94c9f73aefac719ea3b9550ca791389bc9184c15e835516bc8428d"},
     {file = "psycopg2-2.7.3.1-cp36-cp36m-win_amd64.whl", hash = "sha256:a4d7134058e8869d785c0be386cd702fe2a4be14b678d7571a51045e1bbad862"},
     {file = "psycopg2-2.7.3.1.tar.gz", hash = "sha256:9b7b16e26448b43cf167f785d8b5345007731ebf153a510e12dae826800caa65"},
+]
+ptyprocess = [
+    {file = "ptyprocess-0.6.0-py2.py3-none-any.whl", hash = "sha256:d7cc528d76e76342423ca640335bd3633420dc1366f258cb31d05e865ef5ca1f"},
+    {file = "ptyprocess-0.6.0.tar.gz", hash = "sha256:923f299cc5ad920c68f2bc0bc98b75b9f838b93b599941a6b63ddbc2476394c0"},
 ]
 py-asterisk = [
     {file = "py-Asterisk-0.5.18.tar.gz", hash = "sha256:f2e9319626bbc5346ac9cbddfb73480d5fcdf25c1e9d78775c3061a1c01462f1"},
